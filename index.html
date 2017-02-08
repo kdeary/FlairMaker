@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Flair Maker</title>
+  
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sidetools.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+          <h3 class="text-center">Tools <span class="glyphicon glyphicon-wrench"></span></h3>
+          <h5 class="text-center"><b>Color:</b></h5>
+          <input type="color" id="colorpicker">
+<!-- Palettes <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Palettes: <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a href="#" onclick="changePalette();">White</a></li>
+            </ul>
+            <div class="btn-group" role="group">
+                <button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Palette</button>
+                <button class="btn btn-default" onmouseover="$(this).css('background-color', $('#colorpicker').val())"><span class="glyphicon glyphicon-plus"></span> Color</button>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          </div> -->
+          <button class="btn btn-primary" id="loadsave" data-toggle="modal" data-target="#saveslotmodal"><span class="glyphicon glyphicon-floppy-disk"></span> Load / <span class="glyphicon glyphicon-save"></span> Save</button>
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group" role="group" id="zooms">
+              <button class="btn btn-default" onclick="zoomIn();"><span class="glyphicon glyphicon-zoom-in"></span></button>
+              <button class="btn btn-default" onclick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span></button>
+            </div>
+            <div class="btn-group" role="group" id="drawtype">
+              <button class="btn btn-default" onclick="drawType=true;"><span class="glyphicon glyphicon-pencil"></span></button>
+              <button class="btn btn-default" onclick="drawType=false;"><span class="glyphicon glyphicon-erase"></span></button>
+            </div>
+            <div class="btn-group" role="group" id="sharing">
+              <button class="btn btn-default" data-toggle="modal" data-target="#flairtag"><span class="glyphicon glyphicon-tag"></span></button>
+              <button class="btn btn-default" onclick="shareFlairCall()"><span class="glyphicon glyphicon-share"></span></button>
+            </div>
+          </div>
+          <button class="btn btn-danger" id="clearbutton"><span class="glyphicon glyphicon-remove"></span> Clear Drawing</button>
+          <h4 class="text-center"><b>Preview:</b></h4>
+          <button class="btn btn-info center-block" onclick="showPreview();"><span class="glyphicon glyphicon-refresh"></span> Update Preview</button>
+          <div style="margin-left: 46%; margin-top: 5%;" id="previewdiv"></div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row" id="paintarea">
+                  
+                </div>
+              <div class="modal fade" id="saveslotmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Load and Save Flairs</h4>
+                      <p class="text-center"><b>Bytes:</b></p>
+                      <div class="progress">
+                        <div class="progress-bar progress-bar-info" role="progressbar" id="bytelevels"></div>
+                      </div>
+                    </div>
+                    <div class="modal-body">
+                      <div class="slot" id="slot1">
+                        <button type="button" class="btn btn-success pull-right saveslotbutton" id="slotbutton"><span class="glyphicon glyphicon-save"></span> Save to Slot</button>
+                        <button type="button" class="btn btn-primary pull-right loadflairbutton"><span class="glyphicon glyphicon-floppy-disk"></span> Load Flair</button>
+                        <button type="button" class="btn btn-danger pull-right clearslotbutton"><span class="glyphicon glyphicon-trash"></span> Clear Slot</button>
+                        <h4>Empty Slot</h4>
+                      </div>
+                      <div class="slot" id="slot2">
+                        <button type="button" class="btn btn-success pull-right saveslotbutton"><span class="glyphicon glyphicon-save"></span> Save to Slot</button>
+                        <button type="button" class="btn btn-primary pull-right loadflairbutton"><span class="glyphicon glyphicon-floppy-disk"></span> Load Flair</button>
+                        <button type="button" class="btn btn-danger pull-right clearslotbutton"><span class="glyphicon glyphicon-trash"></span> Clear Slot</button>
+                        <h4>Empty Slot</h4>
+                      </div>
+                      <div class="slot" id="slot3">
+                        <button type="button" class="btn btn-success pull-right saveslotbutton"><span class="glyphicon glyphicon-save"></span> Save to Slot</button>
+                        <button type="button" class="btn btn-primary pull-right loadflairbutton"><span class="glyphicon glyphicon-floppy-disk"></span> Load Flair</button>
+                        <button type="button" class="btn btn-danger pull-right clearslotbutton"><span class="glyphicon glyphicon-trash"></span> Clear Slot</button>
+                        <h4>Empty Slot</h4>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="flairtag" tabindex="-1" role="dialog" aria-labelledby="">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Tag your Flair</h4>
+                    </div>
+                    <div class="modal-body">
+                      <h4 class="text-center"><b>Title</b>(max 25 chars)<b>:</b></h4>
+                      <input type="text" placeholder="Scrub Lord" id="flairtitle" maxlength="25" style="width:100%">
+                      <h4 class="text-center"><b>Tagline</b>(max 45 chars)<b>:</b></h4>
+                      <input type="text" placeholder="Awarded for being a Scrub Lord" id="flairtagline" maxlength="45" style="width:100%">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" onclick="saveFlairText()" data-dismiss="modal">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+  
+    <!-- jQuery -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/html2canvas.js"></script>
+    <!-- cookie-js -->
+    <script src="js/cookies.js"></script>
+    <!-- main.js -->
+    <script src="js/main.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+</body>
+
+</html>
